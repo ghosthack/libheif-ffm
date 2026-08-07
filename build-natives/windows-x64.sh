@@ -6,6 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 HEIF_VERSION=1.23.1
 DE265_VERSION=1.1.1
 DAV1D_VERSION=1.5.4
+DAV1D_URL="https://github.com/videolan/dav1d/archive/refs/tags/$DAV1D_VERSION.tar.gz"
 HEIF_SRC="${1:-$ROOT/build/libheif-$HEIF_VERSION}"
 DE265_SRC="$ROOT/build/libde265-$DE265_VERSION"
 DE265_PREFIX="$ROOT/build/prefix-libde265-windows-x64"
@@ -19,7 +20,11 @@ if [ ! -d "$DE265_SRC" ]; then
   curl -sfL "https://github.com/strukturag/libde265/releases/download/v$DE265_VERSION/libde265-$DE265_VERSION.tar.gz" | tar xz -C "$ROOT/build"
 fi
 if [ ! -d "$DAV1D_SRC" ]; then
-  curl -sfL "https://downloads.videolan.org/pub/videolan/dav1d/$DAV1D_VERSION/dav1d-$DAV1D_VERSION.tar.xz" | tar xJ -C "$ROOT/build"
+  dav1d_archive="$ROOT/build/dav1d-$DAV1D_VERSION.tar.gz"
+  curl -fsSL --retry 5 --retry-all-errors --connect-timeout 15 \
+    -o "$dav1d_archive" "$DAV1D_URL"
+  tar xzf "$dav1d_archive" -C "$ROOT/build"
+  rm "$dav1d_archive"
 fi
 [ -d "$HEIF_SRC" ] || { echo "missing $HEIF_SRC; fetch libheif $HEIF_VERSION first"; exit 1; }
 
@@ -86,7 +91,7 @@ cp "$DAV1D_SRC/COPYING" "$DEST/COPYING.dav1d"
   echo "Statically linked: libde265 $DE265_VERSION, decoder only (LGPL v3+, see COPYING.libde265)"
   echo "Source: https://github.com/strukturag/libde265/releases/download/v$DE265_VERSION/libde265-$DE265_VERSION.tar.gz"
   echo "Statically linked: dav1d $DAV1D_VERSION, AV1 decoder (BSD-2-Clause, see COPYING.dav1d)"
-  echo "Source: https://downloads.videolan.org/pub/videolan/dav1d/$DAV1D_VERSION/dav1d-$DAV1D_VERSION.tar.xz"
+  echo "Source: $DAV1D_URL"
   echo "Features: shared libheif; built-in HEVC and AV1 decoders; plugins and all encoders/other codecs disabled"
 } > "$DEST/BUILD-INFO.txt"
 
