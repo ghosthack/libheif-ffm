@@ -1,0 +1,15 @@
+target/
+tools/
+build/
+.DS_Store
+*.log
+natives/src/main/resources/libheif-natives/
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+.env
+.env.*
+!.env.example
