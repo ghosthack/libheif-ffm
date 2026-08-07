@@ -20,12 +20,12 @@ encoders and dynamic codec plugins are disabled in the bundled native.
 <dependency>
   <groupId>io.github.ghosthack</groupId>
   <artifactId>libheif-ffm</artifactId>
-  <version>1.23.1-0.1.0-SNAPSHOT</version>
+  <version>1.23.1-0.1.0</version>
 </dependency>
 <dependency>
   <groupId>io.github.ghosthack</groupId>
   <artifactId>libheif-ffm-natives</artifactId>
-  <version>1.23.1-0.1.0-SNAPSHOT</version>
+  <version>1.23.1-0.1.0</version>
   <classifier>macos-arm64</classifier> <!-- or windows-x64 / linux-x64 -->
   <scope>runtime</scope>
 </dependency>
