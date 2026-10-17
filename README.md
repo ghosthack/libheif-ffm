@@ -70,7 +70,7 @@ mkdir -p build
 curl -sfL https://github.com/strukturag/libheif/releases/download/v1.23.1/libheif-1.23.1.tar.gz | tar xz -C build
 build-natives/macos-arm64.sh
 jextract/gen-bindings.sh
-mvn install
+./mvnw install
 ```
 
 The native scripts fetch and statically build libde265 and dav1d. The Windows
